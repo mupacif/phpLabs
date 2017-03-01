@@ -6,6 +6,7 @@
   <body>
 
  <div id="vue-instance">
+   <a href="index.php"> ajout qestions</a>
    <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)">  {{i.nom}}</a></li></ul>
    <div v-if="currentQuestion">
    {{ idInterro+1}} / {{ questions.length }} 

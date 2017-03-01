@@ -6,6 +6,7 @@
   <body>
 
   <div id="vue-instance">
+  <a href="questions.php"> questions</a>
   <div>
   <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}} </a></li></ul>
 
