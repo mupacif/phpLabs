@@ -8,17 +8,17 @@
   <div id="vue-instance">
   <a href="questions.php"> questions</a>
   <div>
-  <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}} </a></li></ul>
+  <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}}  <span v-if="i.note!=0">~{{i.note}}%</span></a></li></ul>
 
-  <ul><li v-for="q in questions"> {{q.question }} : {{q.answer }}</li></ul>
+  <ul><li v-for="q in questions" > {{q.question }} : <pre> {{{q.answer }}}</pre> </li></ul>
   <h1> Ajoutez une interro </h1>
 <input type="text" v-model="interro" placeholder="chapitre" :disabled="disabledInterro">
 <button type="text" @click="addInterro" :disabled="disabledInterro"> add </button>
 </div>
 <div>
 <h1> ajouter questions</h1>
-  <textarea type="text" v-model="question" placeholder="question" :disabled="disabledQuestion"> </textarea> <br>
-  <textarea  type="text" v-model="answer" placeholder="answer" :disabled="disabledQuestion"></textarea> <br>
+  <textarea type="text" v-model="question" placeholder="question" :disabled="disabledQuestion" rows="5" cols="100"> </textarea> <br>
+  <textarea  type="text" v-model="answer" placeholder="answer" :disabled="disabledQuestion"   rows="5" cols="100"></textarea> <br>
 
 
 
@@ -26,8 +26,8 @@
 </div>
 
     <ul>
-    <li v-for="item in elt">
-    {{ item.question}} :    {{ item.answer}}
+    <li v-for="item in elt" >
+    {{ item.question}} :  <pre>  {{{ item.answer}}}</pre>
     </li>
   </ul>
    </div>
