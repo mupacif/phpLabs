@@ -22,6 +22,8 @@ $app->post('/addInterro', function (Request $request) use($app) {
 
     return $app->json(array('id'=>$app['db']->lastInsertId()));
 });
+
+
 $app->get('/test',function() use($app)
 {
 return $app->json(array('yosh'=>'now it works'));
@@ -29,7 +31,7 @@ return $app->json(array('yosh'=>'now it works'));
 
 $app->get('/interro/{id}',function($id) use($app)
 {
-	$sql = "select q.idInterro, q.question, q.answer from interro i join question q on i.id = q.idInterro and i.id= ?";
+	$sql = "select q.idInterro, q.question, q.answer, q.id from interro i join question q on i.id = q.idInterro and i.id= ?";
     $post = $app['db']->fetchAll($sql, array((int) $id));
 return $app->json($post);
 });
@@ -55,4 +57,13 @@ $app->post('/addQuestion', function (Request $request) use($app) {
     $app['db']->insert('question', array('question'=>$question,'answer'=>$answer,'idInterro'=>$interro));
 
     return new Response("ok question",200);
+});
+
+
+$app->post('/setQuestion', function (Request $request) use($app) {
+    $idQuestion = $request->get('idQuestion');
+    $answer = $request->get('answer');
+    $ok = $app['db']->executeUpdate('UPDATE question SET answer = ? WHERE id = ?', array($answer, $idQuestion));
+
+    return new Response("back:"+$ok,200);
 });
