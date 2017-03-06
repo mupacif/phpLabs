@@ -60,9 +60,9 @@ However, delay the fade out process for 2.5 seconds */
   <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}}  <span v-if="i.note!=0">~{{i.note}}%</span></a></li></ul>
 
   <ul><li v-for="q in questions" > {{q.question }} :<textarea id="item{{q.id}}"> {{{q.answer }}}</textarea><button @click="setQuestion(q.id)">save</button></li>  </ul>  <br>
-  <textarea type="text" v-model="question1" placeholder="question"> </textarea> <br>
-  <textarea  type="text" v-model="answer1" placeholder="answer"  ></textarea> <br>
-  <button @click="">add Question</button>
+  <textarea type="text" v-model="question1" placeholder="question" :disabled="disabledQuestion1"> </textarea> <br>
+  <textarea  type="text" v-model="answer1" placeholder="answer" :disabled="disabledQuestion1" ></textarea> <br>
+  <button @click="addQuestion1" :disabled="disabledQuestion1">add Question</button>
   <h1> Ajoutez une interro </h1>
 <input type="text" v-model="interro" placeholder="chapitre" :disabled="disabledInterro">
 <button type="text" @click="addInterro" :disabled="disabledInterro"> add </button>
@@ -85,8 +85,8 @@ However, delay the fade out process for 2.5 seconds */
    </div>
 
 
-  <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="//cdn.jsdelivr.net/vue/1.0.16/vue.js"></script>
+  <script src="//unpkg.com/axios/dist/axios.min.js"></script>
 
   <script>
     // our VueJs instance bound to the div with an id of vue-instance
@@ -147,6 +147,11 @@ However, delay the fade out process for 2.5 seconds */
           else
             alert("empty")
         },
+         addQuestion1: function()
+        {
+          question={}
+          this.snack("add")
+        },
         setQuestion:function(_idQuestion)
         {
           _answer = document.getElementById("item"+_idQuestion).value;
@@ -205,6 +210,8 @@ However, delay the fade out process for 2.5 seconds */
         {return this.idInterro!=-1},
         disabledQuestion:function()
         {return this.idInterro==-1},
+        disabledQuestion1:function()
+        {return this.id==-1}
        
 
       }

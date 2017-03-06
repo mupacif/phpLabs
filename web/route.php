@@ -47,16 +47,16 @@ return $app->json($post);
 $app->get('/interros',function() use($app)
 {
 
-return $app->json($app['db']->fetchAll('select  i.id, nom,  printf("%.0f",avg(note)*100) as "note" from interro i left join session s on i.id = s.idInterro   group by nom order by i.id , s.idInterro, s.id '));
+return $app->json($app['db']->fetchAll('select  i.id, nom,  avg(note)*100 as "note" from interro i left join session s on i.id = s.idInterro   group by nom order by i.id , s.idInterro, s.id '));
 });
 
 $app->post('/addQuestion', function (Request $request) use($app) {
     $question = $request->get('question');
     $answer = $request->get('answer');
     $interro = $request->get('idInterro');
-    $app['db']->insert('question', array('question'=>$question,'answer'=>$answer,'idInterro'=>$interro));
+    $ok = $app['db']->insert('question', array('question'=>$question,'answer'=>$answer,'idInterro'=>$interro));
 
-    return new Response("ok question",200);
+    return  $app->json(array('id'=>$app['db']->lastInsertId()));
 });
 
 
