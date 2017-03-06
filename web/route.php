@@ -67,3 +67,13 @@ $app->post('/setQuestion', function (Request $request) use($app) {
 
     return new Response("back:"+$ok,200);
 });
+
+
+$app->delete('/interro/{id}',function($id) use($app)
+{
+
+	$app['db']->executeQuery("PRAGMA foreign_keys = ON");
+    $post = $app['db']->delete('interro', array('id' => $id));
+return $app->json($post);
+});
+

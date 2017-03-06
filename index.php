@@ -57,7 +57,7 @@ However, delay the fade out process for 2.5 seconds */
   <div id="snackbar">{{snackbar}}</div>
   <a href="questions.php"> questions</a>
   <div>
-  <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}}  <span v-if="i.note!=0">~{{i.note}}%</span></a></li></ul>
+  <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}}  <span v-if="i.note">~{{i.note}}%</span></a> | <a href="#" @click="deleteInterro(i.id)">delete</a></li></ul>
 
   <ul><li v-for="q in questions" > {{q.question }} :<textarea id="item{{q.id}}"> {{{q.answer }}}</textarea><button @click="setQuestion(q.id)">save</button></li>  </ul>  <br>
   <textarea type="text" v-model="question1" placeholder="question" :disabled="disabledQuestion1"> </textarea> <br>
@@ -149,8 +149,35 @@ However, delay the fade out process for 2.5 seconds */
         },
          addQuestion1: function()
         {
-          question={}
+          question={id:-1,idInterro:this.id,question:this.question1,answer:this.answer1};
+          this.questions.push(question);
+
+           axios.post('web/addQuestion', {question: question.question, answer: question.answer, idInterro : question.idInterro })
+          .then(function (response) {
+            question.id = response.data.id;
+            vm.question1 = ""
+             vm.answer1 = ""
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
           this.snack("add")
+        },
+         deleteInterro: function(_idInterro)
+        {
+          this.snack(_idInterro)
+
+           axios.delete('web/interro/'+_idInterro)
+          .then(function (response) {
+           /* vm.snack(response.data)*/
+            vm.id=-1;
+           vm.questions=[]
+            vm.refresh()
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
+   
         },
         setQuestion:function(_idQuestion)
         {
