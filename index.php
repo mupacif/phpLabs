@@ -56,6 +56,10 @@ However, delay the fade out process for 2.5 seconds */
   <div id="vue-instance">
   <div id="snackbar">{{snackbar}}</div>
   <a href="questions.php"> questions</a>
+  <ul><li v-for="m in matieres">{{m}} | ajouter questions | tester </li></ul>
+   <h1> Ajoutez des matières  </h1> 
+<input type="text" v-model="matiere" placeholder="matière" :disabled="disabledInterro">
+<button type="text" @click="addMatiere" :disabled="disabledInterro"> add </button>
   <div>
   <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}}  <span v-if="i.note">~{{i.note}}%</span></a> | <a href="#" @click="deleteInterro(i.id)">delete</a></li></ul>
 
@@ -95,6 +99,8 @@ However, delay the fade out process for 2.5 seconds */
     var vm = new Vue({
       el: '#vue-instance',
       data:{
+        matieres:[],
+        matiere:"",
         id:-1,
         snackbar:"",
         elt: [],
@@ -127,6 +133,12 @@ However, delay the fade out process for 2.5 seconds */
           {
               vm.questions = response.data;
             })
+        },addMatiere:function()
+        {
+          if(this.matiere!="")
+          this.matieres.push(this.matiere);
+            this.snack(this.matiere)
+            this.matiere = ""
         },
         addQuestion: function()
         {
