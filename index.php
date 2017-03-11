@@ -69,6 +69,7 @@ else
 ?>
   <div id="vue-instance">
   <div id="snackbar">{{snackbar}}</div>
+   <a href="matiere.html"> matières </a>
   <a href="questions.php?id={{idMatiere}}"> questions</a>
  
   <div>
