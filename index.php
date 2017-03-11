@@ -55,9 +55,15 @@ However, delay the fade out process for 2.5 seconds */
 
 <?php 
 if(!isset($_GET["id"] ) || empty($_GET["id"]))
+{
+  echo "not empty lol"
    header('Location: ./matiere.html'); 
+}
 else
+{
+  echo "emptyyy";
   $id = htmlspecialchars($_GET["id"]);
+}
 
 ?>
   <div id="vue-instance">
