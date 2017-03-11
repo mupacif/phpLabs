@@ -99,7 +99,7 @@ return $app->json($app['db']->fetchAll('select  id, nom from matiere'));
 
 
 $app->post('/matiere', function(Request $request) use($app){
-    $nom = $request('nom');
+    $nom = $request->get('nom');
     $ok = $app['db']->insert('matiere', array('nom'=>$nom));
     return $app->json(array('id'=>$app['db']->lastInsertId()));
 
