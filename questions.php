@@ -7,10 +7,11 @@
 
   <?php 
 if(!isset($_GET["id"]) || empty($_GET["id"]))
-         $host  = $_SERVER['HTTP_HOST'];
+        {$host  = $_SERVER['HTTP_HOST'];
     $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
     $extra = 'matiere.html';
     echo "<script>window.location.replace('http://$host$uri/$extra')</script>";
+    } 
 else
   $id = htmlspecialchars($_GET["id"]);
 
