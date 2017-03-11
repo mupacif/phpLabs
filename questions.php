@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>VueJs Tutorial - coligo</title>
+    <title> questions </title>
   </head>
   <body>
 
   <?php 
-if(!isset($_GET["id"]))
-   header('Location: ./matiere.html'); 
+if(!isset($_GET["id"]) || empty($_GET["id"]))
+         $host  = $_SERVER['HTTP_HOST'];
+    $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+    $extra = 'matiere.html';
+    echo "<script>window.location.replace('http://$host$uri/$extra')</script>";
 else
   $id = htmlspecialchars($_GET["id"]);
 
 ?>
 
  <div id="vue-instance">
-   <a href="index.php"> ajout qestions</a>
+   <a href="index.php?id={{idMatiere}}"> ajout qestions</a>
    <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)">  {{i.nom}}</a></li></ul>
    <div v-if="currentQuestion">
    {{ idInterro+1}} / {{ questions.length }} 

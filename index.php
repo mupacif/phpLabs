@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>VueJs Tutorial - coligo</title>
+    <title>Yay </title>
     <style type="text/css">
       /* The snackbar - position it at the bottom and in the middle of the screen */
 #snackbar {
