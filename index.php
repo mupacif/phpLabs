@@ -142,7 +142,7 @@ else
         {
           this.id=_id;
 
-           axios.get("web/interro/"+this._id).then(function (response) 
+           axios.get("web/interro/"+this.id).then(function (response) 
           {
               vm.questions = response.data;
             })
