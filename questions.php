@@ -5,6 +5,14 @@
   </head>
   <body>
 
+  <?php 
+if(!isset($_GET["id"]))
+   header('Location: ./matiere.html'); 
+else
+  $id = htmlspecialchars($_GET["id"]);
+
+?>
+
  <div id="vue-instance">
    <a href="index.php"> ajout qestions</a>
    <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)">  {{i.nom}}</a></li></ul>
@@ -44,6 +52,7 @@
       el: '#vue-instance',
       data:{
         idInterro:-1,
+           idMatiere: <?php echo $id ?>,
         interro:"",
         question:{question:"",answer:""},
         answer:"",
@@ -57,7 +66,7 @@
       created:function()
         { 
            
-          axios.get("web/interros").then(function (response) 
+          axios.get("web/interros/"+this.idMatiere).then(function (response) 
           {
               vm._data.interros = response.data;
             })

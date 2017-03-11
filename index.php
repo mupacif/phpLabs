@@ -53,13 +53,17 @@ However, delay the fade out process for 2.5 seconds */
   </head>
   <body>
 
+<?php 
+if(!isset($_GET["id"]))
+   header('Location: ./matiere.html'); 
+else
+  $id = htmlspecialchars($_GET["id"]);
+
+?>
   <div id="vue-instance">
   <div id="snackbar">{{snackbar}}</div>
-  <a href="questions.php"> questions</a>
-  <ul><li v-for="m in matieres">{{m}} | ajouter questions | tester </li></ul>
-   <h1> Ajoutez des matières  </h1> 
-<input type="text" v-model="matiere" placeholder="matière" :disabled="disabledInterro">
-<button type="text" @click="addMatiere" :disabled="disabledInterro"> add </button>
+  <a href="questions.php?id={{idMatiere}}"> questions</a>
+ 
   <div>
   <ul><li v-for="i in interros"> <a href="#" @click="showQuestion(i.id)"> {{i.nom}}  <span v-if="i.note">~{{i.note}}%</span></a> | <a href="#" @click="deleteInterro(i.id)">delete</a></li></ul>
 
@@ -99,9 +103,9 @@ However, delay the fade out process for 2.5 seconds */
     var vm = new Vue({
       el: '#vue-instance',
       data:{
-        matieres:[],
-        matiere:"",
+        idMatiere: <?php echo $id ?>,
         id:-1,
+        currentRoute: window.location.pathname,
         snackbar:"",
         elt: [],
         idInterro:-1,
@@ -116,7 +120,7 @@ However, delay the fade out process for 2.5 seconds */
       created:function()
         { 
            
-          axios.get("web/interros").then(function (response) 
+          axios.get("web/interros/"+this.idMatiere).then(function (response) 
           {
               vm._data.interros = response.data;
             })
@@ -125,20 +129,15 @@ However, delay the fade out process for 2.5 seconds */
 
       methods:
       {
+        //QUESTIONS
         showQuestion:function(_id)
         {
           this.id=_id;
 
-           axios.get("web/interro/"+_id).then(function (response) 
+           axios.get("web/interro/"+this._id).then(function (response) 
           {
               vm.questions = response.data;
             })
-        },addMatiere:function()
-        {
-          if(this.matiere!="")
-          this.matieres.push(this.matiere);
-            this.snack(this.matiere)
-            this.matiere = ""
         },
         addQuestion: function()
         {
@@ -175,6 +174,23 @@ However, delay the fade out process for 2.5 seconds */
           }); 
           this.snack("add")
         },
+        setQuestion:function(_idQuestion)
+        {
+          _answer = document.getElementById("item"+_idQuestion).value;
+          // this.snack(document.getElementById("item"+_idQuestion).value);
+           this.snack(_idQuestion)
+           axios.post('web/setQuestion', {idQuestion: _idQuestion, answer: _answer}).then(function (response) {
+            // vm.snack(response.data);
+
+            vm.refresh()
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+        },
+
+        //INTERROS
          deleteInterro: function(_idInterro)
         {
           this.snack(_idInterro)
@@ -191,27 +207,12 @@ However, delay the fade out process for 2.5 seconds */
           }); 
    
         },
-        setQuestion:function(_idQuestion)
-        {
-          _answer = document.getElementById("item"+_idQuestion).value;
-          // this.snack(document.getElementById("item"+_idQuestion).value);
-           this.snack(_idQuestion)
-           axios.post('web/setQuestion', {idQuestion: _idQuestion, answer: _answer}).then(function (response) {
-            // vm.snack(response.data);
-
-            vm.refresh()
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-        },
         addInterro:function()
         {
           if(this.interro !== "")
           {
           
-            axios.post('web/addInterro', {nom: this.interro })
+            axios.post('web/addInterro', {nom: this.interro,idMatiere:this.idMatiere })
           .then(function (response) {
             vm._data.idInterro = response.data.id;
 
@@ -225,7 +226,7 @@ However, delay the fade out process for 2.5 seconds */
         refresh:function()
         { 
            
-          axios.get("web/interros").then(function (response) 
+          axios.get("web/interros/"+this.idMatiere).then(function (response) 
           {
               vm._data.interros = response.data;
             })

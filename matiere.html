@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+
+<div id="vue-instance">
+	
+	  <div id="vue-instance">
+  <div id="snackbar">{{snackbar}}</div>
+
+  <ul><li v-for="m in matieres">{{m}} <a href="index.php?id={{m.id}}"> ajouter interros </a></li></ul>
+   <h1> Ajoutez des matières  </h1> 
+<input type="text" v-model="matiere" placeholder="matière" >
+<button type="text" @click="addMatiere" > add </button>
+
+
+</div>
+  <script src="//cdn.jsdelivr.net/vue/1.0.16/vue.js"></script>
+  <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+    // our VueJs instance bound to the div with an id of vue-instance
+
+
+    var vm = new Vue({
+    	 el: '#vue-instance',
+    	  data:{
+        matieres:[],
+        matiere:"",
+        id:-1,
+        snackbar:""},
+        created:function()
+        { 
+           
+                
+          axios.get("web/matieres").then(function (response) 
+          {
+              vm._data.matieres = response.data;
+            })
+
+          },
+
+      methods:
+      {
+        addMatiere:function()
+        {
+          if(this.matiere!="")
+            axios.post('web/matiere',{nom:this.matiere}).then(function(response){
+
+              this.matieres.push({id:response.data.id, nom: this.matiere});
+               this.matiere = ""
+            }).catch(function(error){
+
+            })
+            
+        }
+       
+      }
+    });
+    </script>
+</body>
+</html>

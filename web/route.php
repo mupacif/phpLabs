@@ -9,24 +9,21 @@ $app->before(function (Request $request) {
 });
 
 
-$app->post('/addSession', function (Request $request) use($app) {
-    $idInterro = $request->get('idInterro');
-    $score = $request->get('score');
-    $app['db']->insert('session', array('idInterro'=>$idInterro,'note'=>$score,'date'=>date("Y-n-j")));
 
-    return $app->json(array('id'=>$app['db']->lastInsertId()));
-});
-$app->post('/addInterro', function (Request $request) use($app) {
-    $nom = $request->get('nom');
-    $app['db']->insert('interro', array('nom'=>$nom));
 
-    return $app->json(array('id'=>$app['db']->lastInsertId()));
-});
-
+// TEST
 
 $app->get('/test',function() use($app)
 {
 return $app->json(array('yosh'=>'now it works'));
+});
+
+// INTERRO
+
+$app->get('/interros/{idMatiere}',function($idMatiere) use($app)
+{
+
+return $app->json($app['db']->fetchAll('select  i.id, nom,  avg(note)*100 as "note" from interro i left join session s on i.id = s.idInterro   where i.idMatiere = ? group by nom order by i.id , s.idInterro, s.id ',array((int)$idMatiere)));
 });
 
 $app->get('/interro/{id}',function($id) use($app)
@@ -36,19 +33,24 @@ $app->get('/interro/{id}',function($id) use($app)
 return $app->json($post);
 });
 
-$app->get('/session/{id}',function($id) use($app)
+$app->post('/addInterro', function (Request $request) use($app) {
+    $nom = $request->get('nom');
+    $idMatiere = $request->get('idMatiere');
+    $app['db']->insert('interro', array('nom'=>$nom,'idMatiere'=>$idMatiere));
+
+    return $app->json(array('id'=>$app['db']->lastInsertId()));
+});
+
+$app->delete('/interro/{id}',function($id) use($app)
 {
-	$sql = "select note, date from session where idInterro= ? order by id desc limit 3";
-    $post = $app['db']->fetchAll($sql, array((int) $id));
-return $app->json($post);
+    $app['db']->executeQuery("PRAGMA foreign_keys = ON");
+    $post = $app['db']->delete('interro', array('id' => $id));
+    return $app->json($post);
 });
 
 
-$app->get('/interros',function() use($app)
-{
+// QUESTIONS
 
-return $app->json($app['db']->fetchAll('select  i.id, nom,  avg(note)*100 as "note" from interro i left join session s on i.id = s.idInterro   group by nom order by i.id , s.idInterro, s.id '));
-});
 
 $app->post('/addQuestion', function (Request $request) use($app) {
     $question = $request->get('question');
@@ -69,11 +71,36 @@ $app->post('/setQuestion', function (Request $request) use($app) {
 });
 
 
-$app->delete('/interro/{id}',function($id) use($app)
-{
 
-	$app['db']->executeQuery("PRAGMA foreign_keys = ON");
-    $post = $app['db']->delete('interro', array('id' => $id));
+// SESSION 
+$app->get('/session/{id}',function($id) use($app)
+{
+	$sql = "select note, date from session where idInterro= ? order by id desc limit 3";
+    $post = $app['db']->fetchAll($sql, array((int) $id));
 return $app->json($post);
 });
 
+$app->post('/addSession', function (Request $request) use($app) {
+    $idInterro = $request->get('idInterro');
+    $score = $request->get('score');
+    $app['db']->insert('session', array('idInterro'=>$idInterro,'note'=>$score,'date'=>date("Y-n-j")));
+
+    return $app->json(array('id'=>$app['db']->lastInsertId()));
+});
+
+
+
+// MATIERE
+
+$app->get('/matieres',function() use($app)
+{
+return $app->json($app['db']->fetchAll('select  id, nom from matiere'));
+});
+
+
+$app->post('/matiere', function(Request $request) use($app){
+    $nom = $request('nom');
+    $ok = $app['db']->insert('matiere', array('nom'=>$nom));
+    return $app->json(array('id'=>$app['db']->lastInsertId()));
+
+});
