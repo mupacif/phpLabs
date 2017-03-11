@@ -54,7 +54,7 @@ However, delay the fade out process for 2.5 seconds */
   <body>
 
 <?php 
-if(!isset($_GET["id"]))
+if(!isset($_GET["id"] ) || empty($_GET["id"]))
    header('Location: ./matiere.html'); 
 else
   $id = htmlspecialchars($_GET["id"]);
