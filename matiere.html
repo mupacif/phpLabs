@@ -64,6 +64,7 @@
              axios.delete("web/delete/"+id).then(function (response) 
           {
               vm._data.matieres = response.data;
+              vm.refresh();
             })
         }
        
