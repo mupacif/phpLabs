@@ -59,7 +59,7 @@ if(!isset($_GET["id"] ) || empty($_GET["id"]))
    $host  = $_SERVER['HTTP_HOST'];
 $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 $extra = 'matiere.html';
-header("Location: http://$host$uri/$extra");
+echo "http://$host$uri/$extra";
 }
 else
 {
