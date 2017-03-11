@@ -61,7 +61,7 @@
             })
         },delete:function(id)
         {
-             axios.delete("web/delete/"+id).then(function (response) 
+             axios.delete("web/matiere/"+id).then(function (response) 
           {
               vm._data.matieres = response.data;
               vm.refresh();
