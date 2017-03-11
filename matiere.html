@@ -10,7 +10,7 @@
 	  <div id="vue-instance">
   <div id="snackbar">{{snackbar}}</div>
 
-  <ul><li v-for="m in matieres">{{m}} <a href="index.php?id={{m.id}}"> ajouter interros </a></li></ul>
+  <ul><li v-for="m in matieres">{{m.nom }} <a href="index.php?id={{m.id}}"> ajouter interros </a></li></ul>
    <h1> Ajoutez des matières  </h1> 
 <input type="text" v-model="matiere" placeholder="matière" >
 <button type="text" @click="addMatiere" > add </button>
