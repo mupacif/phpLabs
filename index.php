@@ -56,7 +56,7 @@ However, delay the fade out process for 2.5 seconds */
 <?php 
 if(!isset($_GET["id"] ) || empty($_GET["id"]))
 {
-  echo "not empty lol"
+  echo "not empty lol";
    header('Location: ./matiere.html'); 
 }
 else
