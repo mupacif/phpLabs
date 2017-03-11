@@ -63,7 +63,6 @@ echo "<script>window.location.replace('http://$host$uri/$extra')</script>";
 }
 else
 {
-  echo "emptyyy";
   $id = htmlspecialchars($_GET["id"]);
 }
 
