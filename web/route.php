@@ -104,3 +104,11 @@ $app->post('/matiere', function(Request $request) use($app){
     return $app->json(array('id'=>$app['db']->lastInsertId()));
 
 });
+
+
+$app->delete('/matiere/{id}', function($id) use($app){
+    $app['db']->executeQuery("PRAGMA foreign_keys = ON");
+    $post = $app['db']->delete('matiere', array('id' => $id));
+    return $app->json($post);
+
+});
