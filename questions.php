@@ -66,12 +66,10 @@ else
       created:function()
         { 
            
-         /* axios.get("web/interros/"+this.idMatiere).then(function (response) 
+          axios.get("web/interros/"+this.idMatiere).then(function (response) 
           {
               vm._data.interros = response.data;
-            })*/
-
-            this.refresh();
+            })
 
           },
            methods:
@@ -114,13 +112,6 @@ else
           {
               vm.sessions = response.data;
 
-            })
-        },
-        refresh:function()
-        {
-                    axios.get("web/interros/"+this.idMatiere).then(function (response) 
-          {
-              vm._data.interros = response.data;
             })
         }},
         computed:{

@@ -35,10 +35,7 @@
         { 
            
                 
-          axios.get("web/matieres").then(function (response) 
-          {
-              vm._data.matieres = response.data;
-            })
+         this.refresh();
 
           },
 
@@ -49,12 +46,19 @@
           if(this.matiere!="")
             axios.post('web/matiere',{nom:this.matiere}).then(function(response){
 
-              this.matieres.push({id:response.data.id, nom: this.matiere});
-               this.matiere = ""
+              vm.matieres.push({id:response.data.id, nom: vm.matiere});
+               vm.matiere = ""
+
             }).catch(function(error){
                    console.log(error);
             })
             
+        },refresh:function()
+        {
+           axios.get("web/matieres").then(function (response) 
+          {
+              vm._data.matieres = response.data;
+            })
         }
        
       }
