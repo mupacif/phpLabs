@@ -31,7 +31,7 @@ else
     </textarea>
     <button @click="toggle=!toggle">compare</button>
     <div v-if="toggle" >
-    {{{currentQuestion.answer}}} {{hoho}}
+    <pre> {{{currentQuestion.answer}}} {{hoho}}</pre>
     <br>
     <button @click="next(1)">correct?</button>
     <button @click="next(0)">not correct?</button>
