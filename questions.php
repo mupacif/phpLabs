@@ -4,7 +4,7 @@
     <title> questions </title>
   </head>
   <body>
-
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-database.js"></script>
   <?php 
 if(!isset($_GET["id"]) || empty($_GET["id"]))
         {$host  = $_SERVER['HTTP_HOST'];
